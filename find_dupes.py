@@ -26,9 +26,9 @@ def contains_both_mp3_and_FLAC(files):
     flac_count = 0
 
     for file in files:
-        if file.name.lower().endswith("mp3"):
+        if is_mp3(file):
             mp3_count += 1
-        elif file.name.lower().endswith("flac"):
+        elif is_flac(file):
             flac_count += 1
         
         if mp3_count and flac_count:
@@ -39,7 +39,7 @@ def contains_both_mp3_and_FLAC(files):
 def find_mp3s(files):
     mp3s = []
     for file in files:
-        if file.name.lower().endswith("mp3"):
+        if is_mp3(file):
             mp3s.append(file)
     return mp3s
 
@@ -53,7 +53,7 @@ def prompt_delete_dupes(path, files):
         print("Successfully deleted")
 
     else:
-        pass # replace with writing to log file
+        pass # replace with writing to log file, probably by refactoring this into a class?
     print("")
 
 
