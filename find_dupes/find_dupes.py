@@ -1,20 +1,9 @@
 import os
 import sys
 
-from utils import is_flac, is_mp3
+from utils import get_subdirectories_and_files, is_flac, is_mp3
 
 directory_path = sys.argv[1]
-
-def get_subdirectories_and_files(path):    
-    scan_results = os.scandir(path)
-    subdirectories = []
-    files = []
-    for scan_result in scan_results:
-        if scan_result.is_dir():
-            subdirectories.append(scan_result)
-        elif scan_result.is_file():
-            files.append(scan_result)
-    return files, subdirectories
 
 def contains_both_mp3_and_FLAC(files):
     mp3_count = 0
