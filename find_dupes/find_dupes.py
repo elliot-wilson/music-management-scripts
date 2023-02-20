@@ -1,9 +1,11 @@
 import os
 import sys
 
+from utils import is_flac, is_mp3
+
 directory_path = sys.argv[1]
 
-def get_subdirectories_and_sorted_files(path):    
+def get_subdirectories_and_files(path):    
     scan_results = os.scandir(path)
     subdirectories = []
     files = []
@@ -12,14 +14,7 @@ def get_subdirectories_and_sorted_files(path):
             subdirectories.append(scan_result)
         elif scan_result.is_file():
             files.append(scan_result)
-    sorted_files = sorted(files, key=lambda file: is_flac(file))
-    return sorted_files, subdirectories
-
-def is_mp3(file):
-    return file.name.lower().endswith("mp3")
-
-def is_flac(file):
-    return file.name.lower().endswith("flac")
+    return files, subdirectories
 
 def contains_both_mp3_and_FLAC(files):
     mp3_count = 0
@@ -44,7 +39,8 @@ def find_mp3s(files):
     return mp3s
 
 def prompt_delete_dupes(path, files):
-    for file in files:
+    sorted_files = sorted(files, key=lambda file: is_flac(file))
+    for file in sorted_files:
         print(file.name)
     response = input("Delete? y/n: ")
     if response.lower() == "y":
@@ -53,13 +49,13 @@ def prompt_delete_dupes(path, files):
         print("Successfully deleted")
 
     else:
-        pass # replace with writing to log file, probably by refactoring this into a class?
+        pass # replace with writing path to log file, probably by refactoring this into a class?
     print("")
 
 
 def recursively_search_subdirectories_for_mixed_music_files(path):
     print(path)
-    files, subdirectories = get_subdirectories_and_sorted_files(path)
+    files, subdirectories = get_subdirectories_and_files(path)
     if len(files) and contains_both_mp3_and_FLAC(files):
         prompt_delete_dupes(path, files)
     if len(subdirectories):
