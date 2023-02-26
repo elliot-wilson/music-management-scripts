@@ -1,22 +1,8 @@
 import mutagen
-import os
-import sys
 
 from datetime import timedelta
+from utils.utils import get_subdirectories_and_files
 
-directory_path = sys.argv[1]
-
-
-def get_subdirectories_and_files(path):    
-    scan_results = os.scandir(path)
-    subdirectories = []
-    files = []
-    for scan_result in scan_results:
-        if scan_result.is_dir():
-            subdirectories.append(scan_result)
-        elif scan_result.is_file():
-            files.append(scan_result)
-    return files, subdirectories
 
 def stringify_length(seconds):
     nonpadded_string = str(timedelta(seconds=seconds))
@@ -49,8 +35,7 @@ def recursively_search_subdirectories(path):
         for subdirectory in subdirectories:
             recursively_search_subdirectories(subdirectory.path)
 
-def main():
-    recursively_search_subdirectories(directory_path)
-
 if __name__ == "__main__":
-    main()
+    import sys
+    directory_path = sys.argv[1]
+    recursively_search_subdirectories(directory_path)

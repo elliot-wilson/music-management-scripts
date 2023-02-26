@@ -1,7 +1,7 @@
 import os
 import sys
 
-from utils import get_subdirectories_and_files, is_flac, is_mp3
+from utils.utils import get_subdirectories_and_files, is_flac, is_mp3
 
 directory_path = sys.argv[1]
 
